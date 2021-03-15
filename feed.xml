@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id/>
+    <title>Elian Van Cutsem's blog</title>
+    <updated>2021-03-15T22:31:07.515Z</updated>
+    <generator>https://github.com/nuxt-community/feed-module</generator>
+    <link rel="alternate" href="https://www.elianvancutsem.com"/>
+    <subtitle>Welcome to my blog. I write about technology and coding.</subtitle>
+    <logo>~/assets/about/about3.png</logo>
+    <category term="Nuxt.js"/>
+    <category term="IT"/>
+    <category term="programming"/>
+    <category term="Coding"/>
+    <category term="Full-stack"/>
+    <contributor>
+        <name>Elian Van Cutsem</name>
+        <email>elianvancutsem@gmail.com</email>
+        <uri>http://elianvancutsem.com/</uri>
+    </contributor>
+    <entry>
+        <title type="html"><![CDATA[📈 Adding tracking to your Nuxt site with GA4]]></title>
+        <id>adding-tracking-with-GA4-to-nuxt</id>
+        <link href="https://www.elianvancutsem.com/blog/adding-tracking-with-GA4-to-nuxt"/>
+        <updated>2021-03-15T22:29:23.607Z</updated>
+        <summary type="html"><![CDATA[Adding tracking to your Nuxt site with GA4]]></summary>
+        <content type="html"><![CDATA[<h1 id="adding-tracking-to-your-nuxt-site-with-ga4">Adding tracking to your Nuxt site with GA4</h1>
+<p>I&#39;ve been wanting to see how my site did in analytics for a while now but never got to actually installing and preparing it. Now that I finally attached a new domain (<a href="https://elian.codes">elian.codes</a>) and fixed my DNS for <a href="https://elianvancutsem.com">elianvancutsem.com</a>. I put in the works to add google analytics to my site. (blog post coming up about how I did that soon...)</p>
+<p>Here is a little guide on how I did it and integrated it with <a href="https://nuxtjs.org">Nuxt</a></p>
+<h2 id="using-nuxtjsgoogle-analytics">Using nuxtjs/google-analytics</h2>
+<p>The <a href="https://google-analytics.nuxtjs.org/">nuxtjs/google-analytics</a> module is a <a href="https://github.com/nuxt-community">Nuxt Community</a> maintained module for Nuxt. It depends on the <a href="https://github.com/MatteoGabriele/vue-analytics">vue-analytics</a> package and optimizes it for Nuxt. It&#39;s very easy to install and configure, but it doesn&#39;t support GA4 (yet).</p>
+<p>Install the module with:</p>
+<pre><code class="language-bash">yarn add --dev @nuxtjs/google-analytics
+</code></pre>
+<p>and configure the <code>nuxt.config.js</code> by adding the module to the <code>buildModules</code></p>
+<pre><code class="language-js">{
+  buildModules: [
+    &#39;@nuxtjs/google-analytics&#39;
+  ],
+}
+</code></pre>
+<p>Note that if you&#39;re using Nuxt <code>&lt; 2.9</code> you need to add it to the <code>modules</code> instead of <code>buildModules</code>.</p>
+<p>Then simply add a new section <code>googleAnalytics</code> to your <code>nuxt.config.js</code></p>
+<pre><code class="language-js">export default {
+  googleAnalytics: {
+    id: &#39;UA-XXX-X&#39;
+  }
+}
+</code></pre>
+<p>If your source code is private you can add it right in the config, but it&#39;s good practice to add it as an environment variable. more about that <a href="#using-an-environment-variable">here</a>.</p>
+<h3 id="other-options-and-configurations">other options and configurations</h3>
+<p>There are a lot of options available to customize your config to your need and you can read more about that on <a href="https://google-analytics.nuxtjs.org/options/">the documentation</a>.</p>
+<h2 id="using-vue-gtag">Using vue-gtag</h2>
+<p>If you need or want to use the newer GA4, you&#39;ll have to wait a bit longer until nuxtjs/google-analytics supports it, or use a little workaround.</p>
+<p>You can install <a href="https://www.npmjs.com/package/vue-gtag">vue-gtag</a> as a package and configure Nuxt to use it as a plugin.</p>
+<p>You can install vue-gtag via cli using:</p>
+<pre><code class="language-bash">yarn add vue-gtag
+</code></pre>
+<p>then make a new file in the <code>plugins</code> directory called <code>gtag.js</code>.</p>
+<p>then add the following to the <code>gtag.js</code> file:</p>
+<pre><code class="language-js">import Vue from &#39;vue&#39;
+import VueGtag from &#39;vue-gtag&#39;
+
+Vue.use(VueGtag, {
+  config: { id: &#39;G-XXXXXXXXXX&#39; }
+})
+</code></pre>
+<p>Next, configure Nuxt to use the plugin by adding this to your <code>nuxt.config.js</code> file:</p>
+<pre><code class="language-js">{
+  plugins: [&#39;~/plugins/gtag.js&#39;]
+}
+</code></pre>
+<p>That should be it!</p>
+<h2 id="using-an-environment-variable">Using an environment variable</h2>
+<p>It&#39;s good practice to don&#39;t expose your Google GTag. So you can add it as an environment. To do this you can just add <code>process.env.GOOGLE_ANALITICS_ID</code> instead of the tag in your config.</p>
+<p>In the case of nuxtjs/google-analytics:</p>
+<pre><code class="language-js">googleAnalytics: {
+  id: process.env.GOOGLE_ANALITICS_ID
+}
+</code></pre>
+<p>and in the case of vue-gtag:</p>
+<pre><code class="language-js">Vue.use(VueGtag, {
+  config: { id: process.env.GOOGLE_ANALITICS_ID }
+})
+</code></pre>
+<p>Now you can add the environment variable in your CI/CD or build config.</p>
+<p>Hope you got something useful out of this!</p>
+]]></content>
+        <category label="Nuxt"/>
+        <category label="Tracking"/>
+        <category label="Analytics"/>
+        <category label="JavaScript"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[💄 Configure TailwindCSS with Blazor]]></title>
+        <id>configure-tailwindcss-with-blazor</id>
+        <link href="https://www.elianvancutsem.com/blog/configure-tailwindcss-with-blazor"/>
+        <updated>2021-03-12T17:07:00.000Z</updated>
+        <summary type="html"><![CDATA[Configure TailwindCSS with Blazor]]></summary>
+        <content type="html"><![CDATA[<h1 id="configure-tailwindcss-with-blazor">Configure TailwindCSS with Blazor</h1>
+<p>I had to make a project for school with <a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor">Blazor WASM</a> and I wanted to use <a href="https://tailwindcss.com">TailwindCSS</a> with it. A new Blazor project is quickly setup, but it uses <a href="https://getbootstrap.com/">Bootstrap</a> out of the box, so how do we configure it to use TailwindCSS?</p>
+<p>A little heads up. It&#39;s not that easy, if you plan on using the basics, you could also use the <a href="https://tailwindcss.com/docs/installation#using-tailwind-via-cdn">CDN</a>, but if you plan on using more advanced features in the configuration like using <a href="https://sass-lang.com/">Sass</a> and <code>@apply</code> classes or purging, it&#39;s worth it to find a solution.</p>
+<h2 id="starting-a-new-blazor-project">Starting a new Blazor project.</h2>
+<p>Starting a new blazor project is very easy to do. First, we have to install the dotnet SDK, which can be done easily <a href="https://dotnet.microsoft.com/learn/aspnet/blazor-tutorial/install">here</a>. It&#39;s a very straight forward process.</p>
+<p>After that, we can bootstrap the default Blazor WASM template by running</p>
+<pre><code class="language-bash">dotnet new blazorserver -o yourAmazingApp --no-https
+</code></pre>
+<p>that will create a new directory called <code>yourAmazingApp</code> in the location you ran the command in.</p>
+<p>Now we can start up the project in watchmode by running</p>
+<pre><code class="language-bash">dotnet watch run
+</code></pre>
+<h2 id="preparing-a-packagejson">Preparing a package.json</h2>
+<p>So now we have a basic project, but no Tailwind configuration or even a <code>package.json</code> file. Since Blazor isn&#39;t really meant to do this stuff, we have to make a workaround, but it works fine.</p>
+<h3 id="theoretical-solution">Theoretical solution</h3>
+<p>We can create a little local project with Yarn and use that to download our node_modules. Then we use Webpack to compile and export our <code>Tailwind.scss</code> file to a <code>main.css</code> file in the <code>wwwroot/css</code> folder.</p>
+<h3 id="adding-the-packagejson-file">Adding the package.json file</h3>
+<p>We create a folder called <code>assets</code> in our root directory of our <code>.csproj</code>. in that folder, we can run <code>npm init</code> or <code>yarn init</code>. For the rest of this post I&#39;ll use Yarn, but feel free to use NPM, it should also work.</p>
+<p>so when we initialize a <code>package.json</code> file we can add some dependencies. Below are some I used, but if you&#39;re not using Sass, you can leave out some.</p>
+<pre><code class="language-json">&quot;devDependencies&quot;: {
+    &quot;postcss-import&quot;: &quot;^14.0.0&quot;,
+    &quot;webpack-fix-style-only-entries&quot;: &quot;^0.5.1&quot;,
+    &quot;autoprefixer&quot;: &quot;^10.2.4&quot;,
+    &quot;css-loader&quot;: &quot;^3.2.0&quot;,
+    &quot;mini-css-extract-plugin&quot;: &quot;^0.8.0&quot;,
+    &quot;optimize-css-assets-webpack-plugin&quot;: &quot;^5.0.3&quot;,
+    &quot;postcss&quot;: &quot;^8.2.6&quot;,
+    &quot;postcss-easy-import&quot;: &quot;^3.0.0&quot;,
+    &quot;postcss-loader&quot;: &quot;^4.2.0&quot;,
+    &quot;sass&quot;: &quot;^1.32.8&quot;,
+    &quot;sass-loader&quot;: &quot;^10.1.1&quot;,
+    &quot;style-loader&quot;: &quot;^1.0.0&quot;,
+    &quot;webpack&quot;: &quot;^4.41.0&quot;,
+    &quot;webpack-cli&quot;: &quot;^3.3.9&quot;,
+    &quot;webpack-watch-files-plugin&quot;: &quot;^1.0.3&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;postcss-cli&quot;: &quot;^8.3.1&quot;,
+    &quot;postcss-nested&quot;: &quot;^5.0.3&quot;,
+    &quot;tailwindcss&quot;: &quot;^2.0.3&quot;
+  },
+</code></pre>
+<p>Now we have our dependencies installed, we can create some configuration files.</p>
+<h3 id="configuration-files">Configuration files</h3>
+<h4 id="postcssconfigjs">postcss.config.js</h4>
+<p>the <code>postcss.config.js</code> file is used to process tailwind to our custom stylesheet. Here it also imports some other things, but feel free to only add <code>require(&#39;tailwindcss&#39;)</code>.</p>
+<pre><code class="language-js">module.exports = {
+    plugins: [
+        require(&#39;postcss-easy-import&#39;)({ prefix: &#39;_&#39;, extensions: [&#39;.css&#39;, &#39;.scss&#39;] }),
+        require(&#39;tailwindcss&#39;),
+        require(&#39;autoprefixer&#39;),
+        require(&#39;postcss-nested&#39;)
+    ]
+}
+</code></pre>
+<h4 id="webpackconfigjs">webpack.config.js</h4>
+<p>In the <code>webpack.config.js</code> file we basically tell Webpack to take our raw  <code>/assets/scss/tailwind.scss</code> file and compile it to a <code>main.css</code> file and add it to the <code>wwwroot/css/</code> folder</p>
+<pre><code class="language-js">const path = require(&#39;path&#39;);
+const MiniCssExtractPlugin = require(&quot;mini-css-extract-plugin&quot;);
+const FixStyleOnlyEntriesPlugin = require(&quot;webpack-fix-style-only-entries&quot;);
+
+module.exports = (env, args) =&gt; ({
+    devtool: args.mode === &#39;development&#39; ? &#39;source-map&#39; : &#39;none&#39;,
+    entry: &#39;./scss/tailwind.scss&#39;,
+    output: {
+        filename: &#39;[name].js&#39;,
+        path: path.resolve(__dirname, &#39;..&#39;, &#39;wwwroot/css&#39;)
+    },
+    module: {
+        rules: [
+            {
+                test: /\.scss$/,
+                exclude: /node_modules/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    { loader: &#39;css-loader&#39;, options: { url: false, sourceMap: true } },
+                    { loader: &#39;postcss-loader&#39; },
+                    { loader: &#39;sass-loader&#39; }
+                ]
+            }
+        ]
+    },
+    plugins: [
+        new FixStyleOnlyEntriesPlugin(),
+        new MiniCssExtractPlugin({
+            filename: &#39;[name].css&#39;
+        })
+    ]
+});
+</code></pre>
+<h4 id="tailwindconfigjs">tailwind.config.js</h4>
+<p>below is the basic configuration of TailwindCSS without many to it. But from here we can customize it in any way we want like normal.</p>
+<pre><code class="language-js">module.exports = {
+    purge: [],
+    theme: {
+        extend: {},
+    },
+    variants: {},
+    plugins: [],
+}
+</code></pre>
+<h2 id="configure-blazor-to-use-tailwindcss">Configure Blazor to use TailwindCSS</h2>
+<p>So now we have our compiled <code>main.css</code> file, but it won&#39;t trigger when we build or run our dotnet project. For that, we have to create a separate file called <code>assets.targets</code> which will tell our dotnet project to trigger the <code>package.json</code> build scripts.</p>
+<pre><code class="language-xml">&lt;Project&gt;
+
+    &lt;ItemGroup&gt;
+        &lt;StaticAssets Include=&quot;$(MSBuildThisFileDirectory)**&quot; Exclude=&quot;$(MSBuildThisFileDirectory)node_modules\**&quot; /&gt;
+        &lt;UpToDateCheckInput Include=&quot;@(StaticAssets)&quot; /&gt;
+    &lt;/ItemGroup&gt;
+
+    &lt;PropertyGroup&gt;
+        &lt;StaticCSSPath&gt;scss\tailwind.scss&lt;/StaticCSSPath&gt;
+    &lt;/PropertyGroup&gt;
+
+    &lt;!-- If lockfile has changed, perform a new yarn install --&gt;
+    &lt;Target Name=&quot;yarnInstall&quot;
+            Inputs=&quot;$(MSBuildThisFileDirectory)yarn.lock&quot;
+            Outputs=&quot;$(BaseIntermediateOutputPath)yarn.lock&quot;&gt;
+        &lt;Message Importance=&quot;high&quot; Text=&quot;Restoring dependencies using yarn. This may take several minutes...&quot; /&gt;
+        &lt;Exec Command=&quot;yarn&quot; WorkingDirectory=&quot;$(MSBuildThisFileDirectory)&quot; /&gt;
+        &lt;Copy SourceFiles=&quot;$(MSBuildThisFileDirectory)yarn.lock&quot;
+              DestinationFolder=&quot;$(BaseIntermediateOutputPath)&quot;
+              SkipUnchangedFiles=&quot;true&quot;/&gt;
+    &lt;/Target&gt;
+
+    &lt;!-- If any source file in this dir or below has changed, perform a Webpack build --&gt;
+    &lt;Target Name=&quot;BuildStaticAssets&quot;
+            DependsOnTargets=&quot;yarnInstall&quot;
+            BeforeTargets=&quot;CoreBuild&quot;
+            Inputs=&quot;@(StaticAssets)&quot;
+            Outputs=&quot;$(MSBuildThisFileDirectory)..\wwwroot\$(StaticCSSPath)&quot;&gt;
+        &lt;Exec Command=&quot;yarn build:$(Configuration)&quot; WorkingDirectory=&quot;$(MSBuildThisFileDirectory)&quot; /&gt;
+    &lt;/Target&gt;
+
+&lt;/Project&gt;
+</code></pre>
+<p>now add the build scripts in <code>package.json</code> and we&#39;re pretty much done.</p>
+<pre><code class="language-json">&quot;scripts&quot;: {
+    &quot;build:Debug&quot;: &quot;webpack --mode development&quot;,
+    &quot;build:Release&quot;: &quot;webpack --mode production&quot;
+  },
+</code></pre>
+<p>from this point on we can use Tailwind in any way we want. First, we have to add it to our project by modifying our <code>.csproj</code> file.</p>
+<p><code>yourAwesomeProject.csproj</code></p>
+<pre><code class="language-xml">&lt;Project Sdk=&quot;Microsoft.NET.Sdk.Web&quot;&gt;
+  
+   // default configuration here ... 
+    
+  &lt;Import Project=&quot;assets\assets.targets&quot; /&gt;
+&lt;/Project&gt;
+</code></pre>
+<h2 id="run-your-project">Run your project</h2>
+<p>voila! Now every time you run <code>dotnet build</code> or debug your project. The scripts will run or at least checked. If everything goes correct, you should see the <code>main.css</code> file in your <code>/wwwroot/css</code> folder!</p>
+<p>Now we can include and use it in our markup</p>
+<p><code>Pages/_Host.cshtml</code>:</p>
+<pre><code class="language-html">&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;title&gt;YourAwesomeProject&lt;/title&gt;
+    &lt;link href=&quot;~/css/main.css&quot; rel=&quot;stylesheet&quot; /&gt;
+&lt;/head&gt;
+</code></pre>
+<p>Also don&#39;t forget to put that file in your <code>.gitignore file</code> otherwise you&#39;ll push and pull a file that gets generated, which is useless.</p>
+]]></content>
+        <category label="WASM"/>
+        <category label="Blazor"/>
+        <category label="TailwindCSS"/>
+        <category label="Front-end"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[💫 Adding a custom preloader to your nuxt site]]></title>
+        <id>adding-a-custom-preloader-to-your-nuxt-site</id>
+        <link href="https://www.elianvancutsem.com/blog/adding-a-custom-preloader-to-your-nuxt-site"/>
+        <updated>2021-03-12T00:11:00.000Z</updated>
+        <summary type="html"><![CDATA[Adding a custom preloader to your nuxt site]]></summary>
+        <content type="html"><![CDATA[<h1 id="adding-a-custom-preloader-to-your-nuxt-site">Adding a custom preloader to your nuxt site</h1>
+<p>A custom preloader on your website doesn&#39;t necessarily have to be boring. It&#39;s probably the first thing a user sees when they enter your website for the first time, so why not make it an extension of your website with a matching design.</p>
+<p>I recently redid the design of my website with TailwindCSS and came to the idea of adding a custom preloader. Nuxt is really easy expandable and customisable, so I searced for an easy way to do it and there was.</p>
+<h2 id="creating-the-custom-component">Creating the custom component</h2>
+<p>So you it seems that nuxt simply allows you to set your own custom component as a preloader and it will automatically take care of the props.</p>
+<p>Just build your template as you like it. Mine was as follows: (ofcourse it uses TailwindCSS, so don&#39;t mind the crazy classes)</p>
+<pre><code class="language-vue">&lt;template&gt;
+  &lt;div class=&quot;absolute z-50 w-full h-full overflow-hidden flex justify-center items-center&quot; v-if=&quot;loading&quot;&gt;
+      &lt;div class=&quot;h-14 w-14 animate-pulse bg-green-300 rounded-full flex justify-center items-center&quot;&gt;
+        &lt;svg class=&quot;w-12 h-12 text-green-500 animate-spin-slow&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; viewBox=&quot;0 0 24 24&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+            &lt;path stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; stroke-width=&quot;2&quot; d=&quot;M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z&quot;&gt;&lt;/path&gt;
+            &lt;path stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; stroke-width=&quot;2&quot; d=&quot;M15 12a3 3 0 11-6 0 3 3 0 016 0z&quot;&gt;&lt;/path&gt;
+        &lt;/svg&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+<p>then we just have to add the script with the props that Nuxt provides us with:</p>
+<pre><code class="language-vue">&lt;script&gt;
+  export default {
+    data: () =&gt; ({
+      loading: false
+    }),
+    methods: {
+      start() {
+        this.loading = true
+      },
+      finish() {
+        this.loading = false
+      }
+    }
+  }
+&lt;/script&gt;
+</code></pre>
+<p>The full component is available on my <a href="https://github.com/ElianVanCutsem/elianvancutsem.github.io">Github repository</a> under <code>components/loading/loading.vue</code></p>
+<p>There&#39;s really not that much about it. you can configure it as a modal, or just as a component somewhere on your page. It&#39;s up to you to invent crazy things!</p>
+<h2 id="telling-nuxt-to-use-you-component-as-preloader">Telling Nuxt to use you component as preloader</h2>
+<p>Configuring Nuxt to use your component is actually very easy. You just set it in your <code>nuxt.config.js</code> file like the following:</p>
+<pre><code class="language-js">module.exports {
+    loading: &#39;~/components/loader/Loader.vue&#39;
+}
+</code></pre>
+<p>As simple as that. Now nuxt should toggle your component everytime  it has something to load.</p>
+<h2 id="nuxt-default-preloaders">Nuxt default preloaders</h2>
+<p>So now I had a cool custom component which looked awesome and matching to my site. Still I was not really happy with it. The main reason being that you literally have to see it everytime something loads. Everytime I clicked on a blogpost or switched pages it popped up. So it quickly annoyed me more than I found it valueable, so I ditched the idea of a preloader in the center of the page and went with the actually preset nuxt preloader and customised it to my needs.</p>
+<p>The component I made is still available in my repository over on <a href="https://github.com/ElianVanCutsem/elianvancutsem.github.io">Github</a> if your interested.</p>
+<p>So as we saw in our own component, we just have to tell nuxt to use a preloader. The default Nuxt preloader can be set as following:</p>
+<pre><code class="language-js">module.exports {
+    loading: true
+}
+</code></pre>
+<p>Mine is set as the following:</p>
+<pre><code class="language-js">module.exports {
+    loading: {
+        color: &#39;#6ee7b7&#39;,
+        height: &#39;4px&#39;,
+        failedColor: &#39;b91c1c&#39;
+    }
+}
+</code></pre>
+<p>Not more than that, but ofcourse you can change more properties like: <code>rtl</code>, <code>css</code>, <code>continuous</code>, <code>duration</code> and more.</p>
+<p>Nuxt also has a very good documentation of this which can be found <a href="https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-loading">here</a></p>
+]]></content>
+        <category label="TailwindCSS"/>
+        <category label="Nuxt"/>
+        <category label="Front-end"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[💄 Using KonvaJS as canvas with React]]></title>
+        <id>using-konvajs-as-canvas-with-react</id>
+        <link href="https://www.elianvancutsem.com/blog/using-konvajs-as-canvas-with-react"/>
+        <updated>2021-03-11T21:47:00.000Z</updated>
+        <summary type="html"><![CDATA[Using KonvaJS as canvas with React]]></summary>
+        <content type="html"><![CDATA[<h1 id="using-konvajs-as-canvas-with-react">Using KonvaJS as canvas with React</h1>
+<p>While running my internship at <a href="https://www.vbridge.eu">vBridge</a> I&#39;m working on a front-end based project, building a usable interface for users and needed a HTML canvas for that. Of course I couldn&#39;t just use any kind of canvas or a normal HTML canvas. I needed to render different shapes or colors based on the specific situation the user is encountering. The project uses React to begin with. So the search for a usable canvas package with React started.</p>
+<h2 id="packages-that-i-found">Packages that I found</h2>
+<p>While doing some research I came across some packages that all could have been a valid choice. The packages that stood out the most to me were:</p>
+<ul>
+<li><a href="https://konvajs.org">Konva</a></li>
+<li><a href="https://gojs.net">GoJS</a></li>
+<li><a href="https://github.com/reactjs/react-art">React art</a></li>
+<li><a href="https://github.com/Flipboard/react-canvas">React Canvas</a></li>
+</ul>
+<p>Of course there&#39;s also the standard HTML canvas which you can read more about <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">here</a></p>
+<p>There are probably a lot more available, but these are the ones that I found the most documentation of. Why I chose Kova, you can read below.</p>
+<h2 id="why-use-konva">Why use Konva</h2>
+<p>So I went with Konva. Basically it would be easier to explain why I didn&#39;t went with the other ones. I chose not to use React Art because it isn&#39;t reactive and that is ofcourse one of the main aspects I&#39;ll be needing. React canvas would have been a valid choice as well. It allows you to draw DOM-like elements on the canvas, but is not as easy to draw graphics, that&#39;s where Konva and GoJS come in. Both are about drawing graphics in a performant way on the canvas. Konva integrates very easy with React since it has a specific React package called <a href="https://konvajs.org/docs/react/index.html">react-konva</a>. Also, GoJS is not free-to-use in a production environment, so if I were to use GoJS, I had to explain to superiors why I needed to spend money. Since the differences are small, I chose Konva. There you have it.</p>
+<h2 id="differences-between-konvajs-and-react-konva">Differences between KonvaJS and react-konva</h2>
+<p>So what&#39;s the difference between the &#39;normal&#39; Konva and react-konva packages. Well basically you can use Konva components in react-konva like so:</p>
+<pre><code class="language-jsx">import React from &#39;react&#39;
+import Konva, { Stage, Layer, Text, Rect, Circle } from &#39;react-konva&#39;
+
+const App = () =&gt; {
+    return (
+        &lt;Stage&gt;
+            &lt;Layer&gt;
+                &lt;Text text=&quot;hello from Konva&quot;/&gt;
+                &lt;Rect fill=&quot;red&quot; height=&quot;50&quot; width=&quot;50&quot;/&gt;
+                &lt;Circle fill=&quot;red&quot; radius=&quot;60&quot;/&gt;
+            &lt;/Layer&gt;
+        &lt;/Stage&gt;
+    )
+}
+
+export default App
+</code></pre>
+<p>Where this would translate in pure KonvaJS without react as follows</p>
+<pre><code class="language-html">&lt;html&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;container&quot;&gt;
+        &lt;/div&gt;
+        &lt;script src=&quot;https://unpkg.com/konva@7.0.3/konva.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;
+        // first we need to create a stage
+        var stage = new Konva.Stage({
+        container: &#39;container&#39;,   // id of container &lt;div&gt;
+        width: 500,
+        height: 500
+        });
+
+        // then create layer
+        var layer = new Konva.Layer();
+
+        // create our shape
+        var circle = new Konva.Circle({
+        x: stage.width() / 2,
+        y: stage.height() / 2,
+        radius: 50,
+        fill: &#39;red&#39;,
+        });
+
+        // add the shape to the layer
+        layer.add(circle);
+
+        // add the layer to the stage
+        stage.add(layer);
+
+        // draw the image
+        layer.draw();
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>code example from <a href="https://konvajs.org/docs/overview.html">kanvajs.org</a></p>
+<p>Ofcourse the React version is way easier! Konva also offers a lot of other features like:</p>
+<ul>
+<li>Exporting to image</li>
+<li>exporting all elements to SVG</li>
+<li>events</li>
+</ul>
+<h2 id="events-in-konva">events in konva</h2>
+<pre><code class="language-jsx">import React from &#39;react&#39;
+import Konva, { Stage, Layer, Circle } from &#39;react-konva&#39;
+
+const App = () =&gt; {
+    const sayHello = () =&gt; {
+        console.log(&quot;hello&quot;)
+    }
+    return (
+        &lt;Stage&gt;
+            &lt;Layer&gt;
+                &lt;Circle
+                    fill=&quot;red&quot;
+                    radius=&quot;60&quot;
+                    onMouseOver={sayHello}
+                /&gt;
+            &lt;/Layer&gt;
+        &lt;/Stage&gt;
+    )
+}
+
+export default App
+</code></pre>
+<p>Easy right. This wil trigger the <code>sayHello</code> method everytime you hover over it. Ofcourse there are lots of other events and triggers available. Feel free to read about the on <a href="https://konvajs.org/docs/react/index.html">the Konva docs</a>.</p>
+<p>There are also a lot of Demo&#39;s available for Konva and react-konva. See them <a href="https://konvajs.org/docs/sandbox/index.html">here</a></p>
+]]></content>
+        <category label="Konva"/>
+        <category label="React"/>
+        <category label="Canvas"/>
+        <category label="Front-end"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[✨ Pairing React-native with TailwindCSS]]></title>
+        <id>pairing-react-native-with-tailwindcss</id>
+        <link href="https://www.elianvancutsem.com/blog/pairing-react-native-with-tailwindcss"/>
+        <updated>2021-02-20T17:37:00.000Z</updated>
+        <summary type="html"><![CDATA[Writing my own React Native templates]]></summary>
+        <content type="html"><![CDATA[<h1 id="pairing-react-native-with-tailwindcss">Pairing React Native with TailwindCSS</h1>
+<p>For my web &amp; mobile development course @<a href="https://odisee.be/en">Odisee</a> I had to make a mobile app with technologies of my choice. Ofcourse, I made the choice to use <a href="https://reactnative.dev/">React Native</a> since it&#39;s very popular, has good documentation and is a good skill to have (and also available with Typescript). I also wanted to be able to use <a href="https://tailwindcss.com">TailwindCSS</a>, since I&#39;m pretty proficient at it right now, and is very easy to get started with. For the back-end of the application, I made the choice to use <a href="https://deno.land">Deno</a>, but that isn&#39;t important right now.</p>
+<p>So I went on the search for a easy template to start with (for faster development and results, not because I&#39;m lazy 😉), but I couldn&#39;t find any. It seems that React Native doesn&#39;t integrate easy with Tailwind, but there exists a NPM package to solve this called <a href="https://github.com/vadimdemedes/tailwind-rn">Tailwind-rn</a>. So I tried it out and it seemed very easy to work with.</p>
+<h2 id="using-tailwind-rn">Using tailwind-rn</h2>
+<p>Tailwind-rn is a NPM Package written by @<a href="https://github.com/vadimdemedes">vadimdemedes</a> on Github and published on <a href="https://www.npmjs.com/package/tailwind-rn">NPM</a>. It basically enables you to use tailwind classes inside the style attribute in React Native like so:</p>
+<pre><code class="language-jsx">import tailwind from &#39;tailwind-rn&#39;;
+
+const App = () =&gt; (
+    &lt;SafeAreaView style={tailwind(&#39;h-full&#39;)}&gt;
+        &lt;View style={tailwind(&#39;pt-12 items-center&#39;)}&gt;
+            &lt;View style={tailwind(&#39;bg-blue-200 px-3 py-1 rounded-full&#39;)}&gt;
+                &lt;Text style={tailwind(&#39;text-blue-800 font-semibold&#39;)}&gt;
+                    Hello Tailwind
+                &lt;/Text&gt;
+            &lt;/View&gt;
+        &lt;/View&gt;
+    &lt;/SafeAreaView&gt;
+);
+</code></pre>
+<p>This of course is very nice and what I wanted. But ofcourse it would be cleaner and easier if you could use a custom <code>tailwind.config.js</code> file to configure tailwind in the React Native application. It seems also that is possible with Tailwind-rn, but I haven&#39;t played around with it yet, but I&#39;ll sure do so soon.</p>
+<h2 id="building-my-own-template">Building my own template</h2>
+<p>So, I tought that it could be useful to create a React Native template out of this. Since I looked for it, others must be too.</p>
+<p>A React Native template is actually very easy to install and use. Just run </p>
+<pre><code class="language-bash">npx react-native init yourApp --template react-native-template-typescript
+</code></pre>
+<p>and it will automatically download the template from NPM (altough installing a template can also be done via <code>file://</code>, <code>https://</code> or <code>git://</code>) and install it on your local machine.</p>
+<p>To build my own template, I just downloaded the original template and modified it to use the tailwind-rn package. Configured the <code>package.json</code> and <code>template.config.js</code> files and published it to NPM.</p>
+<h2 id="publishing-the-package">Publishing the package</h2>
+<p>I never published a package to NPM, so there was a bit of a learning curve. But it wasn&#39;t that hard once I had setup everything right.</p>
+<p>The final packages are available <a href="https://www.npmjs.com/package/react-native-template-tailwind">here</a> and the typescript variant is available <a href="https://www.npmjs.com/package/react-native-template-ts-tailwind">here</a>.</p>
+<p>To install my templates you can choose between two variant where one uses typescript and the other doesn&#39;t.</p>
+<p>For jsx version:</p>
+<pre><code class="language-bash">npx react-native init yourApp --template react-native-template-tailwind
+</code></pre>
+<p>For tsx version:</p>
+<pre><code class="language-bash">npx react-native init yourApp --template react-native-template-ts-tailwind
+</code></pre>
+<p>Maybe I&#39;ll make a template that uses the &quot;more advanced&quot; version of TailwindCSS with a custom <code>tailwind.config.js</code> one day.</p>
+<p>I hope some people get some value out of the package!</p>
+]]></content>
+        <category label="TailwindCSS"/>
+        <category label="React Native"/>
+        <category label="NPM"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[💄 Tailwind with sass]]></title>
+        <id>using-tailwind-with-sass-preprocessor</id>
+        <link href="https://www.elianvancutsem.com/blog/using-tailwind-with-sass-preprocessor"/>
+        <updated>2021-02-16T19:13:00.000Z</updated>
+        <summary type="html"><![CDATA[Using Sass as a tailwind preprocessor]]></summary>
+        <content type="html"><![CDATA[<h1 id="using-sass-as-a-tailwindcss-preprocessor">Using Sass as a tailwindCSS preprocessor</h1>
+<p>Today I fiddled around with Tailwind @apply classes. I previously posted about a darkmode in combination with @apply classes and damn it goes well together. But I discovered a problem and got stuck on it for a while. It seems that when you&#39;re using tailwind without PostCSS 8, it doesn&#39;t compile the nested classes. So I searched for a fix.</p>
+<p>It seems that the <a href="https://tailwindcss.com/docs/using-with-preprocessors">TailwindCSS documentation</a> has a page dedicated to this and it solves the problem in an ideal situation. But the codebase I used didn&#39;t use Postcss, so I had to find a workaround.</p>
+<h2 id="ideal-solution">Ideal solution</h2>
+<p>the ideal solution is actually very clean and simple, just require the <code>postcss-import</code> and <code>postcss-nesting</code> packages in the <code>postcss.config.js</code> file. like so:</p>
+<pre><code class="language-javascript">module.exports = {
+  plugins: [
+    require(&#39;postcss-import&#39;),
+    require(&#39;tailwindcss&#39;),
+    require(&#39;postcss-nested&#39;), // or require(&#39;postcss-nesting&#39;)
+    require(&#39;autoprefixer&#39;),
+  ]
+}
+</code></pre>
+<p>Very simple, very nice. But how to fix it when you&#39;re not using PostCSS (yet) ?</p>
+<h2 id="describing-the-setup">Describing the setup</h2>
+<p>In the project I was working in, we&#39;re using a webpack / babel setup with minifyCSS to compile the CSS into the production environment. To change the whole system was probably going to take a while and to be honest I didn&#39;t write that code and didn&#39;t feel certain that everything was going to work.
+I searched around for a bit on the <a href="https://github.com/postcss/postcss#usage">documentation of PostCSS</a> and tought of a fix on how it possibly could work.</p>
+<h2 id="how-to-fix">How to fix</h2>
+<p>I tought of a way to just compile the <code>tailwind.scss</code> file into a compiled <code>tailwind.css</code> file with of course the compiled nested classes. To do this I basically installed the <code>postcss-cli</code> NPM package. and configured the build scripts in <code>package.json</code> to compile Tailwind</p>
+<pre><code class="language-json">// package.json
+&quot;scripts&quot;: {
+    &quot;build:tailwind&quot;: &quot;postcss ./assets/css/tailwind.scss -o public_html/assets/css/tailwindoutput.css&quot;,
+    &quot;watch:tailwind&quot;: &quot;postcss ./assets/css/tailwind.scss -o public_html/assets/css/tailwindoutput.css --watch&quot;
+  },
+</code></pre>
+<p>out of the box this does work for the basics, but still the nested classes were not working, so I now could follow <a href="https://github.com/postcss/postcss#usage">the documentation</a> and add the plugins to the <code>postcss.config.js</code></p>
+<pre><code class="language-javascript">//postcss.config.js
+module.exports = {
+  plugins: [
+    require(&#39;postcss-import&#39;),
+    require(&#39;tailwindcss&#39;),
+    require(&#39;autoprefixer&#39;),
+    require(&#39;postcss-nested&#39;)
+  ]
+}
+</code></pre>
+<p>Now everything finally worked fine and I could use nested classes!</p>
+<pre><code class="language-scss">/* tailwind.scss */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.header {
+    @apply text-gray-600 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-50;
+    nav {
+        @apply hover:text-green-800;
+    }
+}
+</code></pre>
+]]></content>
+        <category label="Sass"/>
+        <category label="TailwindCSS"/>
+        <category label="Front-end"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[✨ Using Valet for local PHP development]]></title>
+        <id>using-valet-for-local-development</id>
+        <link href="https://www.elianvancutsem.com/blog/using-valet-for-local-development"/>
+        <updated>2021-02-12T20:48:00.000Z</updated>
+        <summary type="html"><![CDATA[Setting up local PHP development with Laravel Valet]]></summary>
+        <content type="html"><![CDATA[<h1 id="using-laravel-valet-for-local-php-development">Using Laravel Valet for local PHP development</h1>
+<p>This week I&#39;ve been developing PHP and Twig at my internship at <a href="https://vbridge.eu">vBridge</a>, since we&#39;re using a big pile of sourcecode, Docker doesn&#39;t perform as well. To fix this <a href="https://bram.us">Bramus</a> told me about a tool called Valet. So I went on the search to configure and install Valet.</p>
+<h2 id="installing-valet">Installing Valet</h2>
+<p>Installing Valet is actually really easy. They have incredible <a href="https://laravel.com/docs/master/valet">documentation</a> (as usual with Laravel).</p>
+<p>You can simply install it by using <code>composer global require laravel/valet</code> if you&#39;ve installed <a href="https://brew.sh/">Homebrew</a>, PHP and <a href="https://getcomposer.org/">Composer</a>, else you should install those first (but also that is very easy). Once that&#39;s done, simply run <code>valet install</code> and Valet will install and start.</p>
+<p>Now that valet is installed and started you&#39;ll be able to ping any <code>.test</code> domain and it&#39;ll answer from <code>localhost</code> or <code>172.0.0.1</code>.</p>
+<p>Valet also starts when you boot your computer and will run as a background process with only 7mb of RAM!</p>
+<p><em>Also, Valet is MacOS only</em></p>
+<h2 id="valet-link">Valet Link</h2>
+<p>So installing is easy, so mapping a domain shouldn&#39;t be hard right! just cd into the directory you want to run as a site and run <code>valet link</code> and the name of the directory will be used as domain. For insance: </p>
+<pre><code class="language-bash">cd laravelsite
+valet link
+</code></pre>
+<p>Now when you open your browser and go to <code>laravelsite.test</code>. It will magically appear on the screen! awesome right!</p>
+<p>You can also name a link by running <code>valet link &lt;name&gt;</code>. For instance:</p>
+<pre><code class="language-bash">cd laravelsite
+valet link newsite
+</code></pre>
+<p>Now it&#39;s available at <code>newsite.test</code></p>
+<p>It&#39;s amazing!</p>
+<h2 id="valet-use">Valet use</h2>
+<p>So, imagine that you&#39;re developing a website on your local machine with the newest version of PHP, but the server you&#39;ll be deploying to uses a much older PHP version. You don&#39;t want to put in the work to install a new old version right? Valet got you covered!</p>
+<p>Just run <code>valet use php@version</code> and valet will use that version. If you don&#39;t have the version installed locally, it will install it for you.</p>
+<p>But ofcourse, <a href="https://github.com/sgotre/sphp-osx">sphp</a> is a valid choice too.</p>
+<h2 id="valet-secure">Valet Secure</h2>
+<p>Tired of the stupid browser notification that localhost isn&#39;t secured? Me too. Valet also has a nifty solution. Run <code>valet secure &lt;name&gt;</code>x and it will install a certificate for you.</p>
+<p>It&#39;s insane how easy this all is!</p>
+<h2 id="valet-envphp">valet-env.php</h2>
+<p>Ofcourse if you&#39;re a somewhat more demanding user. It can be interesting to use and create custom environment variables.</p>
+<p>Valet has support for a file called <code>valet-env.php</code> and will use it to configure and use environment variables</p>
+<p>For instance:</p>
+<pre><code class="language-php">&lt;?php
+
+return [
+    &#39;newsite&#39; =&gt; [
+        &#39;APP_ENV&#39; =&gt; &#39;dev&#39;,
+    ],
+];
+</code></pre>
+<p>Now when you&#39;ll open <code>newsite.test</code> in your browser, it&#39;ll have the dev environment!</p>
+<p>Read the post about environment variable from Bramus <a href="https://www.bram.us/2019/01/17/laravel-valet-environment-variables/">here</a></p>
+<p>Read the <a href="https://laravel.com/docs/master/valet">full documentation here</a>!</p>
+]]></content>
+        <category label="Laravel"/>
+        <category label="Valet"/>
+        <category label="PHP"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[💄darkmode in TailwindCSS]]></title>
+        <id>adding-dark-mode-tailwind</id>
+        <link href="https://www.elianvancutsem.com/blog/adding-dark-mode-tailwind"/>
+        <updated>2021-02-09T18:11:00.000Z</updated>
+        <summary type="html"><![CDATA[Adding dark mode to TailwindCSS]]></summary>
+        <content type="html"><![CDATA[<h1 id="add-dark-mode-to-your-site-with-tailwindcss">Add dark mode to your site with TailwindCSS</h1>
+<p>I&#39;ve fiddled arround with <a href="https://tailwindcss.com/">TailwindCSS</a> for some time now, but never got to the point of adding dark mode. But actually it isn&#39;t that hard since v2.0.</p>
+<h2 id="official-dark-mode-documentation">Official dark mode documentation</h2>
+<p>TailwindCSS docs has it&#39;s very own dedicated <a href="https://tailwindcss.com/docs/dark-mode">documentation on dark mode</a>. So I used it as a guide to setup my application&#39;s dark mode.</p>
+<h2 id="tailwind-config">Tailwind config</h2>
+<p>Tailwind disables dark mode in a basic setup to reduce the size of the css-file. To enable it you just have to add <code>darkMode: &#39;media&#39;</code> or <code>darkMode: &#39;class&#39;</code> in your <code>tailwind.config.js</code>. In the minimal config it would look like this:</p>
+<pre><code class="language-javascript">module.exports = {
+    purge: [],
+    darkMode: &#39;class&#39;, // or &#39;media&#39;
+    theme: {},
+    variants: {},
+    plugins: []
+}
+</code></pre>
+<h2 id="media-vs-class">&#39;media&#39; vs &#39;class&#39;</h2>
+<p>Dark mode in tailwind is very easy with <code>media</code>. It will take the <code>prefers-color-scheme</code> of your OS to determine if you&#39;re using dark or light mode. Dark mode <code>class</code> will use a manual toggle to determine dark or light mode. With <code>class</code> you can add the <code>class</code> to your html element. You can simply toggle this with JavaScript.</p>
+<h2 id="how-to-use-dark-mode-in-css">How to use dark mode in css</h2>
+<p>It&#39;s as simple as just adding <code>dark:bg-black</code> to your html classes.</p>
+<pre><code class="language-html">&lt;body class=&quot;bg-white dark:bg-black&quot;&gt;
+    &lt;h1 class=&quot;text-black dark:text-white&quot;&gt;
+        What color am I?
+    &lt;/h1&gt;
+&lt;/body&gt;
+</code></pre>
+<p>Tailwind will then automagically determine what classes to use.</p>
+<p>Above is ofcourse an easy example, but <code>dark:</code> can also be stacked to other variants like <code>lg:</code> or <code>hover:</code>. So in the example below, the text will be black on smaller screens but white on larger screens.</p>
+<pre><code class="language-html">&lt;h1 class=&quot;text-black dark:lg:text-white&quot;&gt;
+    What color am I?
+&lt;/h1&gt;
+</code></pre>
+<h2 id="variants">Variants</h2>
+<p>By default Tailwind dark classes are available on background colors, border colors, text colors and a few more. But you can extend tailwind to your needs by configuring <code>tailwind.config.js</code></p>
+<pre><code class="language-javascript">module.exports = {
+    // ...
+    variants: {
+        extend: {
+            textOpacity: [&#39;dark&#39;]
+        }
+    }
+}
+</code></pre>
+<h2 id="conclusion">Conclusion</h2>
+<p>TailwindCSS dark mode is very easy when combined with <code>@apply</code> classes and can be extended to your needs. It&#39;s easy to configure and can give an extra functionality to your application.</p>
+<p>See an example <a href="https://github.com/ElianVanCutsem/tailwind-dark-mode-example">here</a> or <a href="https://admiring-wescoff-a17fa9.netlify.app/">here</a>.</p>
+]]></content>
+        <category label="TailwindCSS"/>
+        <category label="JavaScript"/>
+        <category label="Front-end"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[🎉 Initial commit]]></title>
+        <id>building-website-in-nuxt</id>
+        <link href="https://www.elianvancutsem.com/blog/building-website-in-nuxt"/>
+        <updated>2021-02-03T18:11:00.000Z</updated>
+        <summary type="html"><![CDATA[Building my website and blog with Nuxt]]></summary>
+        <content type="html"><![CDATA[<h1 id="recreating-my-site-in-nuxt-and-adding-a-blog">Recreating my site in Nuxt and adding a blog</h1>
+<p>So, next week I&#39;m about to start my journey as a Full-stack software engineer at <a href="https://www.vbridge.eu">vBridge</a>. I&#39;m so excited! The internship is part of my school program, a part of the internship is keeping a blog with your findings and thoughts, so I decided to build my own blog with <a href="https://www.nuxtjs.org">Nuxt</a> instead of a regular WordPress or something else. Nuxt was on my &#39;want to learn&#39; list for a while, so I was very excited to finally try out the framework. I&#39;m a huge fan of <a href="https://www.vuejs.org">Vue</a> so it didn&#39;t seem very hard to learn and implement Nuxt. I was right.</p>
+<h2 id="setting-up-nuxt">Setting up Nuxt</h2>
+<p>setting up Nuxt was actually really easy. I just searched for the <a href="https://nuxtjs.org/docs/2.x/get-started/installation">official Nuxt documentation</a>, turns out to be a very good documented framework (not that I expected something else since the <a href="https://v3.vuejs.org/guide">Vue documentation</a> is the best I&#39;ve ever seen).</p>
+<p>On the homepage of the Nuxt documentation there&#39;s a very simple guide that takes you trough the whole setup. It&#39;s just a few command since it uses the <code>create nuxt-app</code> command to setup the basic template app. From there I kind of figured the rest out by scrolling through the documentation.</p>
+<h3 id="static-generation">static generation</h3>
+<p>since I&#39;m hosting my whole website with <a href="https://pages.github.com/">Github Pages</a> I had to configure Nuxt to generate static files. Also this was really easy. I just had to put <code>target: &#39;static&#39;</code> in the <code>nuxt.config.js</code> file. It already pre-configured the yarn commands for me. (yes, I&#39;m a yarn user)</p>
+<h3 id="front-end-configuration">front-end configuration</h3>
+<p>The Nuxt website was now configured for the most part, but since I already had a Vue website, I had to rebuild it in Nuxt (which is basically the same), So I dragged and dropped my files in the pre-made folders in the example app and installed Bootstrap &amp; bootstrap-vue, and everything worked as it should!</p>
+<p>Nuxt has a pre-configured router, so I didn&#39;t even had to setup the routing.</p>
+<h2 id="building-a-blog">Building a blog</h2>
+<p>As I said in the introduction, I mainly transferred my old Vue site to Nuxt to be able to include a simple blog feature. I just googled: &quot;how to build a blog in Nuxt&quot;. Turns out Nuxt itself had a blog post: <a href="https://nuxtjs.org/blog/creating-blog-with-nuxt-content">Creating blog with Nuxt content</a>. So I basically followed that guide to create my own blog</p>
+<h3 id="nuxtcontent">Nuxt/content</h3>
+<p>Nuxt content also has it&#39;s own dedicated documentation which is <a href="https://content.nuxtjs.org/">https://content.nuxtjs.org/</a>.</p>
+<p>The setup for a blog is very easy. You install the <code>@nuxt/content</code> package and you&#39;re almost ready to go. Just have to add some settings in the <code>nuxt.config.js</code> file, add some .md files with your blog content per post, a new page with your blog feed and a template for your blog. It worked super fast and couldn&#39;t be any easier.</p>
+<p>It pre-configures an API where you can fetch your posts by a global variable <code>$content</code> more about that is described <a href="https://content.nuxtjs.org/fetching">here</a>. In a static environment it compiles all files to a <code>db.json</code> file where it fetches the content.</p>
+<h3 id="nuxtfeed">Nuxt/feed</h3>
+<p>To fulfill al the requirements for school, I also had to add a RSS feed to my blog. I&#39;m a big fan of the <a href="https://feedly.com/">Feedly</a> platform (which is a RSS-feed reader). So I googled some more on how to pair Nuxt and RSS. Also this was well documented in exactly how I needed it to be. It&#39;s just in the <a href="https://content.nuxtjs.org/integrations#nuxtjsfeed">nuxt content integrations section</a> in the documentation. This was somewhat more complicated, but still very easy since it&#39;s so well documented. You basically install the <code>@nuxtjs/feed</code> module and configure it in the <code>nuxt.config.js</code> file. I only needed the RSS XML version, but even more formats are supported (JSON, for instance).</p>
+<p>Something that took some more research was displaying the content correct in the RSS feed. I could just input the whole static html as the content, but that looked really off since it also inserted the header and footer in the content. So I decided to take the raw .md contents as the content, only then to discover that most RSS feeders didn&#39;t display it right, so I then installed the <code>marked</code> NPM package and converted it to HTML, now it looks like I wanted it to.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Nuxt is a very easy to install and use platform which is well documented. If you already know Vue it&#39;s only a little step-up but can improve the speed for a production ready product. The blog stack in nuxt is easy to install and use if you know some markdown and don&#39;t need a CMS, which I don&#39;t since I host on Github pages.</p>
+]]></content>
+        <category label="Nuxt"/>
+        <category label="JavaScript"/>
+        <category label="Blog"/>
+    </entry>
+</feed>
